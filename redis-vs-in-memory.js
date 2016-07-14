@@ -1,7 +1,7 @@
 var bluebird = require('bluebird');
 var redis = require('redis');
 var redisClient = bluebird.promisifyAll(redis.createClient());
-var NUMBER_OF_REQUESTS = 10;
+var NUMBER_OF_REQUESTS = 2000;
 
 redisClient.on('error', function(err) {
   console.log(`Error: ${err}`);
@@ -19,7 +19,6 @@ function getRedisCounter() {
   return redisClient.incrAsync('callCounter')
   .then(function(callCounter) {
     var endTime = new Date().getTime();
-    console.log(`getRedisCounter time: ${endTime - startTime}`);
     return {
       callCounter: callCounter,
       totalTime: endTime - startTime
